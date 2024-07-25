@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Banner from "../components/Banner";
 import Dropdown from "../components/Dropdown";
 import SearchBox from "../components/SearchBox";
-
+import useFetch from "../hooks/useFetch";
 interface Option {
   value: string;
   label: string;
@@ -16,6 +16,14 @@ const options: Option[] = [
 ];
 
 const Homepage = () => {
+  const { data, loading, error } = useFetch(
+    "https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats"
+  );
+
+  console.log("DATA :: ", data);
+  console.log("Loading :: ", loading);
+  console.log("Error :: ", error);
+
   return (
     <div>
       <Header />
