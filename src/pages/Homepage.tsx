@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import Banner from "../components/Banner";
 import Dropdown from "../components/Dropdown";
+import SearchBox from "../components/SearchBox";
 
 interface Option {
   value: string;
@@ -19,9 +20,16 @@ const Homepage = () => {
     <div>
       <Header />
       <Banner />
-      <div className="flex">
-        <Dropdown options={options} title={"Filter By Date"} />
-        <Dropdown options={options} title={"Filter By Type"} />
+
+      {/* Filter and Searchbar goes here */}
+      <div className="flex justify-between">
+        <div className="flex">
+          <Dropdown options={options} title={"Filter By Date"} />
+          <Dropdown options={options} title={"Filter By Type"} />
+        </div>
+        <div className="mr-5">
+          <SearchBox />
+        </div>
       </div>
     </div>
   );
