@@ -1,20 +1,7 @@
 // src/Card.tsx
 
 import React from "react";
-
-interface Data {
-  title: string;
-  description: string;
-  date: number; // Unix timestamp
-  location: string;
-  price: number;
-  type: string;
-  condition: string;
-  image: string;
-  tag: string[];
-  duration: number;
-  id: string;
-}
+import { Data } from "../Types/types";
 
 interface CardProps {
   idx: number;

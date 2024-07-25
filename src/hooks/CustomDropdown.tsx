@@ -48,10 +48,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   }, []);
 
   return (
-    <div>
+    <div className="relative">
       <div
         onClick={toggleDropdown}
-        className="flex items-center justify-between w-40 bg-[#1B3252] rounded-md py-1 px-3 cursor-pointer "
+        className="flex items-center justify-between w-40 bg-[#1B3252] rounded-md py-1 px-3 cursor-pointer"
       >
         <h2 className="text-[#FFFFFF] font-roboto mr-2">{title}</h2>
         {isOpen ? (

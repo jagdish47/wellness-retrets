@@ -1,10 +1,6 @@
 import React from "react";
 import CustomDropdown from "../hooks/CustomDropdown";
-
-interface Option {
-  value: string;
-  label: string;
-}
+import { Option } from "../Types/types";
 
 interface CustomOptions {
   options: Option[];
