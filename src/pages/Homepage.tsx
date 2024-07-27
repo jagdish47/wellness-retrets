@@ -8,6 +8,7 @@ import useFetch from "../hooks/useFetch";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
 import Button from "../components/Button";
+import Shimmer from "../components/Shimmer";
 
 import { yogaData } from "../config/dummyData";
 import { Data } from "../Types/types";
@@ -44,8 +45,6 @@ const Homepage = () => {
     );
   }
 
-  console.log(data);
-
   return (
     <div>
       <Header />
@@ -66,6 +65,10 @@ const Homepage = () => {
 
       <ToastContainer />
       {/* showing the card data here */}
+
+      <div className="flex flex-wrap mx-3">
+        {loading && [...Array(6)].map((_, index) => <Shimmer key={index} />)}
+      </div>
 
       <div className="grid grid-cols-3 mt-5 gap-5 mx-5">
         {data?.map((ele, idx) => (
