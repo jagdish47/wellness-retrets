@@ -286,3 +286,26 @@ export const yogaData = [
     duration: 2,
   },
 ];
+
+export const location = [
+  { value: "Goa", label: "Goa" },
+  { value: "Rishikesh", label: "Rishikesh" },
+  { value: "Mumbai", label: "Mumbai" },
+  { value: "Kerala", label: "Kerala" },
+  { value: "Delhi", label: "Delhi" },
+  { value: "Pune", label: "Pune" },
+  { value: "Chennai", label: "Chennai" },
+];
+
+export const dates = [
+  { value: "2024-09-06", label: "September 6, 2024" },
+  { value: "2024-11-22", label: "November 22, 2024" },
+  { value: "2024-08-14", label: "August 14, 2024" },
+  { value: "2024-09-29", label: "September 29, 2024" },
+  { value: "2024-12-21", label: "December 21, 2024" },
+  { value: "2024-12-13", label: "December 13, 2024" },
+  { value: "2024-10-26", label: "October 26, 2024" },
+  { value: "2023-11-10", label: "November 10, 2023" },
+  { value: "2023-09-05", label: "September 5, 2023" },
+  { value: "2023-12-05", label: "December 5, 2023" },
+];

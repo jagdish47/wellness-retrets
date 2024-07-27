@@ -8,17 +8,18 @@ interface Option {
 
 interface CustomDropdownProps {
   options: Option[];
-  onSelect: (option: Option) => void;
   title: string;
+  selectedOption: string;
+  setSelectedOption: (option: string) => void;
 }
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({
   options,
-  onSelect,
   title,
+  selectedOption,
+  setSelectedOption,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
@@ -26,9 +27,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   };
 
   const handleOptionClick = (option: Option) => {
-    setSelectedOption(option);
+    setSelectedOption(option.value);
     setIsOpen(false);
-    onSelect(option);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -48,12 +48,12 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   }, []);
 
   return (
-    <div className="relative">
+    <div ref={dropdownRef} className="relative ">
       <div
         onClick={toggleDropdown}
-        className="flex items-center justify-between w-40 bg-[#1B3252] rounded-md py-1 px-3 cursor-pointer"
+        className="flex items-center justify-between w-48 bg-[#1B3252] rounded-md py-1 px-3 cursor-pointer"
       >
-        <h2 className="text-[#FFFFFF] font-roboto mr-2">{title}</h2>
+        <h2 className="text-[#FFFFFF] font-roboto mr-2 ">{title}</h2>
         {isOpen ? (
           <IoIosArrowUp color="#FFFFFF" />
         ) : (
@@ -62,11 +62,14 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       </div>
 
       {isOpen && (
-        <div className="w-40">
+        <div className="absolute w-48 mt-2 bg-[#1B3252] border border-gray-400 rounded-md">
           {options.map((option, idx) => (
             <div key={idx} className="bg-[#1B3252]">
-              <h1 className="p-1 pl-2 border border-gray-400 text-[#FFFFFF] text-sm font-mono cursor-pointer bg-[#1B3252]">
-                {option.value}
+              <h1
+                onClick={() => handleOptionClick(option)}
+                className="p-1 pl-2 text-[#FFFFFF] text-sm font-mono cursor-pointer border-b hover:bg-[#37619c]"
+              >
+                {option.label}
               </h1>
             </div>
           ))}

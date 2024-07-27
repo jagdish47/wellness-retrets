@@ -1,10 +1,11 @@
 import React, { useState, ChangeEvent } from "react";
 
-const SearchBox = () => {
-  const [query, setQuery] = useState<string>("");
+interface SearchBoxProps {
+  query: string;
+  setQuery: (newQuery: string) => void;
+}
 
-  console.log("Query :: ", query);
-
+const SearchBox: React.FC<SearchBoxProps> = ({ query, setQuery }) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };

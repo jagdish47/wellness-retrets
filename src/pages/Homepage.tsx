@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "../components/Header";
 import Banner from "../components/Banner";
@@ -10,40 +10,53 @@ import Card from "../components/Card";
 import Button from "../components/Button";
 import Shimmer from "../components/Shimmer";
 
-import { yogaData } from "../config/dummyData";
-import { Data } from "../Types/types";
-import { Option } from "../Types/types";
+import { dates, location, yogaData } from "../config/dummyData";
+import { Data, Option } from "../Types/types";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const options: Option[] = [
-  { value: "account-settings", label: "Account settings" },
-  { value: "support", label: "Support" },
-  { value: "license", label: "License" },
-  { value: "sign-out", label: "Sign out" },
-];
-
 const Homepage = () => {
   const [count, setCount] = useState(1);
+  const [query, setQuery] = useState<string>("");
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
 
   const { data, loading, error } = useFetch<Data[]>(
-    `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${count}&limit=6`
+    `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${count}&limit=6&search=${debouncedQuery}`
   );
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [query]);
+
   const handlePreviousPage = () => {
-    count > 1 ? setCount((prev) => prev - 1) : setCount(count);
+    if (count > 1) {
+      setCount((prev) => prev - 1);
+    }
   };
 
   const handleNextPage = () => {
     setCount((prev) => prev + 1);
   };
 
-  if (data?.length === 0) {
-    toast.info(
-      "Currently, no more data is available. Please click the Previous button. Thank you."
-    );
-  }
+  useEffect(() => {
+    if (data && data.length === 0) {
+      toast.info(
+        "Currently, no more data is available. Please click the Previous button. Thank you."
+      );
+    }
+  }, [data]);
+
+  console.log("Selected Date :: ", selectedDate);
+  console.log("Selected Location :: ", selectedLocation);
 
   return (
     <div>
@@ -53,35 +66,43 @@ const Homepage = () => {
       {/* Filter and Searchbar goes here */}
       <div className="flex justify-between">
         <div className="flex">
-          <Dropdown options={options} title={"Filter By Date"} />
-          <Dropdown options={options} title={"Filter By Type"} />
+          <Dropdown
+            options={dates}
+            title={"Filter By Date"}
+            selectedOption={selectedDate}
+            setSelectedOption={setSelectedDate}
+          />
+
+          <Dropdown
+            options={location}
+            title={"Filter By Location"}
+            selectedOption={selectedLocation}
+            setSelectedOption={setSelectedLocation}
+          />
         </div>
         <div className="mr-6">
-          <SearchBox />
+          <SearchBox query={query} setQuery={setQuery} />
         </div>
       </div>
 
       {/* For toast message */}
-
       <ToastContainer />
-      {/* showing the card data here */}
 
+      {/* handling loading state */}
       <div className="flex flex-wrap mx-3">
         {loading && [...Array(6)].map((_, index) => <Shimmer key={index} />)}
       </div>
 
       <div className="grid grid-cols-3 mt-5 gap-5 mx-5">
         {data?.map((ele, idx) => (
-          <Card ele={ele} idx={idx} />
+          <Card ele={ele} idx={idx} key={idx} />
         ))}
       </div>
 
-      {/* Next and Previouse Button Goes Here */}
-
+      {/* Next and Previous Button Goes Here */}
       <div className="flex items-center justify-center mt-5">
-        <Button title={"Previouse"} onClick={handlePreviousPage} />
-
-        {!(data?.length === 0) && (
+        <Button title={"Previous"} onClick={handlePreviousPage} />
+        {data && data.length > 0 && (
           <Button title={"Next"} onClick={handleNextPage} />
         )}
       </div>

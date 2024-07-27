@@ -2,19 +2,27 @@ import React from "react";
 import CustomDropdown from "../hooks/CustomDropdown";
 import { Option } from "../Types/types";
 
-interface CustomOptions {
+interface DropdownProps {
   options: Option[];
   title: string;
+  selectedOption: string;
+  setSelectedOption: (option: string) => void;
 }
 
-const Dropdown: React.FC<CustomOptions> = ({ options, title }) => {
-  const handleSelect = (option: Option) => {
-    console.log("Selected option:", option);
-  };
-
+const Dropdown: React.FC<DropdownProps> = ({
+  options,
+  title,
+  selectedOption,
+  setSelectedOption,
+}) => {
   return (
     <div className="ml-5">
-      <CustomDropdown options={options} onSelect={handleSelect} title={title} />
+      <CustomDropdown
+        options={options}
+        title={title}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+      />
     </div>
   );
 };
