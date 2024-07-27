@@ -34,3 +34,19 @@ Now, you'll receive two links. You need to copy the local URL or use Ctrl + Left
 Local:            http://localhost:3000
 On Your Network: http://192.168.218.96:3000
 ```
+
+# Live Demo 🚀
+
+Check out the live version of the app: [https://wellness-retrets.vercel.app/](https://wellness-retrets.vercel.app/)
+
+## Responsiveness of project 🔥
+
+![Large Screen](public/assets/demoImage/large-screen.png)
+
+## Tablet Screen
+
+![Tablet Screen](public/assets/demoImage/table-screen.png)
+
+## Mobile Screen
+
+![Mobile Screen](public/assets/demoImage/mobile-screen.png)
