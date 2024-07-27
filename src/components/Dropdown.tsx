@@ -16,7 +16,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   setSelectedOption,
 }) => {
   return (
-    <div className="ml-5">
+    <div className="ml-5 w-full md:w-auto">
       <CustomDropdown
         options={options}
         title={title}

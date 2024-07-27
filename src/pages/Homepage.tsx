@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import Header from "../components/Header";
 import Banner from "../components/Banner";
 import Dropdown from "../components/Dropdown";
@@ -9,10 +8,8 @@ import Footer from "../components/Footer";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import Shimmer from "../components/Shimmer";
-
 import { dates, location, yogaData } from "../config/dummyData";
-import { Data, Option } from "../Types/types";
-
+import { Data } from "../Types/types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,12 +20,14 @@ const Homepage = () => {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedLocation, setSelectedLocation] = useState<string>("");
 
-  const { data, loading, error } = useFetch<Data[]>(
-    `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${count}&limit=6&search=${debouncedQuery}`
-  );
+  const fetchUrl = `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${count}&limit=6&search=${debouncedQuery}&date=${selectedDate}&location=${selectedLocation}`;
+
+  const { data, loading, error } = useFetch<Data[]>(fetchUrl);
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      setSelectedDate("");
+      setSelectedLocation("");
       setDebouncedQuery(query);
     }, 500);
 
@@ -63,16 +62,15 @@ const Homepage = () => {
       <Header />
       <Banner />
 
-      {/* Filter and Searchbar goes here */}
-      <div className="flex justify-between">
-        <div className="flex">
+      {/* Filter and Searchbar */}
+      <div className="flex flex-col md:flex-row md:items-center gap-4 p-4">
+        <div className="flex flex-col gap-4 md:flex-row md:gap-4 flex-grow">
           <Dropdown
             options={dates}
             title={"Filter By Date"}
             selectedOption={selectedDate}
             setSelectedOption={setSelectedDate}
           />
-
           <Dropdown
             options={location}
             title={"Filter By Location"}
@@ -80,7 +78,7 @@ const Homepage = () => {
             setSelectedOption={setSelectedLocation}
           />
         </div>
-        <div className="mr-6">
+        <div className="w-full md:w-auto">
           <SearchBox query={query} setQuery={setQuery} />
         </div>
       </div>
@@ -88,18 +86,18 @@ const Homepage = () => {
       {/* For toast message */}
       <ToastContainer />
 
-      {/* handling loading state */}
+      {/* Handling loading state */}
       <div className="flex flex-wrap mx-3">
         {loading && [...Array(6)].map((_, index) => <Shimmer key={index} />)}
       </div>
 
-      <div className="grid grid-cols-3 mt-5 gap-5 mx-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-5 gap-5 mx-5">
         {data?.map((ele, idx) => (
           <Card ele={ele} idx={idx} key={idx} />
         ))}
       </div>
 
-      {/* Next and Previous Button Goes Here */}
+      {/* Next and Previous Button */}
       <div className="flex items-center justify-center mt-5">
         <Button title={"Previous"} onClick={handlePreviousPage} />
         {data && data.length > 0 && (
@@ -107,7 +105,7 @@ const Homepage = () => {
         )}
       </div>
 
-      {/* Footer of page */}
+      {/* Footer */}
       <Footer />
     </div>
   );
